@@ -116,8 +116,8 @@ $(document).ready(function()
     {
         event.preventDefault();
 
-        if(($("#C1").val()!="") && ($("#C2").val()!="")&& $('input[name=file]').val()!="")
-        {
+        // if(($("#C1").val()!="") && ($("#C2").val()!="")&& $('input[name=file]').val()!="")
+        // {
             var fData = new FormData();
             
             fData.append('file', $('input[name=file]')[0].files[0]);
@@ -152,14 +152,24 @@ $(document).ready(function()
     			},
             	error: function(result)
             	{
-            		alert("error in insertion");  
+                    var response=JSON.parse(result.responseText);
+                    var errorString = '<ul>';
+                    $.each( response.errors, function( key, value) {
+                    errorString += '<li>' + value + '</li>';
+                    }
+                    errorString += '</ul>';
+                    $('#flash').html("<div class='alert alert-warning'>Warning: "+errorString+"</div>");
+                });
+                    
+            
+            console.log('error_outer');  
             	}
     	    });
-        }
-        else
-        {
-            alert(" Fill the required fields and select image.");
-        }
+        // }
+        // else
+        // {
+        //     alert(" Fill the required fields and select image.");
+        // }
     });
 
     $("body").on("submit","#updateform",function(event)
